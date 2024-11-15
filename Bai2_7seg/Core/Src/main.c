@@ -70,9 +70,7 @@ void settime_7seg();
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int hour = 13;
-int min = 51;
-int second = 50;
+
 /* USER CODE END 0 */
 
 /**
@@ -114,6 +112,8 @@ int main(void)
   int state_y0_led = 0;
   int state_y1_led = 0;
   int state_colon = 0;
+  int nums_7seg[4] = {0, 1, 2, 3};
+  int shift_position = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -160,20 +160,15 @@ int main(void)
 	  }
 	  if (flag_timer_second){
 	 		  setTimerSecond(1000);
-	 		  second = second + 1;
-	 		  if(second >= 60){
-	 			  second = 0;
-	 			  min = min + 1;
-	 			  if (min >= 60){
-	 				  min = 0;
-	 				  hour = (hour +1) % 24;
-	 			  }
+	 		  for (int i = 0; i < 4; i++){
+	 			  led7_SetDigit(nums_7seg[(shift_position + i) % 4], i, 0);
 	 		  }
+	 		  shift_position = (shift_position + 1) % 4;
 	 	  }
 
 	  if (flag_timer7seg){
 		  setTimer7seg(SCAN_TIME);
-		  settime_7seg();
+//		  settime_7seg();
 		  led7_Scan();
 	  }
 
@@ -280,10 +275,10 @@ void test_7seg(){
 }
 
 void settime_7seg(){
-	led7_SetDigit(hour/10, 0, 0);
-	led7_SetDigit(hour%10, 1, 0);
-	led7_SetDigit(min/10, 2, 0);
-	led7_SetDigit(min%10, 3, 0);
+	led7_SetDigit(0, 0, 0);
+	led7_SetDigit(0, 1, 0);
+	led7_SetDigit(0, 2, 0);
+	led7_SetDigit(0, 3, 0);
 }
 /* USER CODE END 4 */
 
