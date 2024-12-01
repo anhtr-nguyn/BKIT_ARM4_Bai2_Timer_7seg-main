@@ -49,7 +49,7 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 #define SCAN_FREQ 250 // 1s -> 1hz
-#define SCAN_TIME 1000/SCAN_FREQ
+#define SCAN_TIME 10
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -122,7 +122,7 @@ int main(void)
   {
     /* USER CODE END WHILE */
 	  if (flag_timer2){
-		  setTimer2(2000);
+		  setTimer2(1000);
 		  HAL_GPIO_TogglePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin);
  		  led7_SetColon(state_colon);
  		  if (state_colon ==  1){
@@ -164,12 +164,13 @@ int main(void)
 	 			  led7_SetDigit(nums_7seg[(shift_position + i) % 4], i, 0);
 	 		  }
 	 		  shift_position = (shift_position + 1) % 4;
+	 		 test_Uart();
 	 	  }
 
 	  if (flag_timer7seg){
 		  setTimer7seg(SCAN_TIME);
-//		  settime_7seg();
-		  led7_Scan();
+		  ds3231_ReadTime();
+//		  test_Uart();
 	  }
 
     /* USER CODE BEGIN 3 */
@@ -258,14 +259,13 @@ void test_button(){
 }
 
 void test_Uart(){
-	if(button_count[12] == 1){
 		uart_Rs232SendNum(ds3231_hours);
 		uart_Rs232SendString(":");
 		uart_Rs232SendNum(ds3231_min);
 		uart_Rs232SendString(":");
 		uart_Rs232SendNum(ds3231_sec);
 		uart_Rs232SendString("\n");
-	}
+//		uart_Rs232SendString("0");
 }
 void test_7seg(){
 	led7_SetDigit(0, 0, 0);
