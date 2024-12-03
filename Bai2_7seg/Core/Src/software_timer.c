@@ -7,7 +7,7 @@
 
 #include "software_timer.h"
 
-#define TIMER_CYCLE_2 1
+#define TIMER_CYCLE_2 0.01
 
 
 uint16_t flag_timer2 = 0;
