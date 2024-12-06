@@ -7,7 +7,7 @@
 
 #include "software_timer.h"
 
-#define TIMER_CYCLE_2 0.01
+#define TIMER_CYCLE_2 0.1
 
 
 uint16_t flag_timer2 = 0;
@@ -58,6 +58,11 @@ void setTimer7seg(uint16_t duration){
 	flag_timer7seg = 0;
 }
 
+void setTimer7seg_f(float duration){
+	timer7seg_MUL = (int)duration/TIMER_CYCLE_2;
+	timer7seg_counter = timer7seg_MUL;
+	flag_timer7seg = 0;
+}
 void setTimerSecond(uint16_t duration){
 	timer_second_MUL = duration/TIMER_CYCLE_2;
 	timer_second_counter = timer_second_MUL;

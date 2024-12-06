@@ -20,5 +20,6 @@ void setTimer2(uint16_t duration);
 void setTimer3(uint16_t duration);
 void setTimer4(uint16_t duration);
 void setTimer7seg(uint16_t duratioin);
+void setTimer7seg_f(float duration);
 void setTimerSecond(uint16_t duration);
 #endif /* INC_SOFTWARE_TIMER_H_ */

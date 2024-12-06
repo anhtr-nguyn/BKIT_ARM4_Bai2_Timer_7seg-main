@@ -48,8 +48,8 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define SCAN_FREQ 250 // 1s -> 1hz
-#define SCAN_TIME 1000/SCAN_FREQ
+#define SCAN_FREQ 100 // 1s -> 1hz
+#define SCAN_TIME (1000.0/SCAN_FREQ)/4.0
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -120,62 +120,31 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
 	  if (flag_timer2){
-		  setTimer2(2000);
-		  HAL_GPIO_TogglePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin);
- 		  led7_SetColon(state_colon);
- 		  if (state_colon ==  1){
- 			  state_colon = 0;
- 			  led_Off(6);
- 		  }
- 		  else {
- 			  state_colon = 1;
- 			  led_On(6);
- 		  }
+		  setTimer2(250);
+		  state_colon = 1 - state_colon;
+		  led7_SetColon(state_colon);
 	  }
-	  if (flag_timer3){
-		  if (state_y0_led == 0 ){
-			  setTimer3(2000);
-			  HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 1);
-			  state_y0_led = 1;
-		  }
-		  else if ( state_y0_led == 1){
-			  setTimer3(4000);
-			  HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 0);
-			  state_y0_led = 0;
-		  }
-	  }
-	  if (flag_timer4){
-		  if (state_y1_led == 0){
-			  setTimer4(5000);
-			  HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 1);
-			  state_y1_led = 1;
-		  }
-		  else if (state_y1_led == 1){
-			  setTimer4(1000);
-			  HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 0);
-			  state_y1_led = 0;
-		  }
-	  }
-	  if (flag_timer_second){
-	 		  setTimerSecond(1000);
-	 		  second = second + 1;
-	 		  if(second >= 60){
-	 			  second = 0;
-	 			  min = min + 1;
-	 			  if (min >= 60){
-	 				  min = 0;
-	 				  hour = (hour +1) % 24;
-	 			  }
-	 		  }
-	 	  }
+	  if(flag_timer_second){
+	  	 		  setTimerSecond(1000);
+	  	 		  second = second + 1;
+	  	 		  if(second >= 60){
+	  	 			  second = 0;
+	  	 			  min = min + 1;
+	  	 			  if (min >= 60){
+	  	 				  min = 0;
+	  	 				  hour = (hour +1) % 24;
+	  	 			  }
+	  	 		  }
+	  	 	  }
 
-	  if (flag_timer7seg){
-		  setTimer7seg(SCAN_TIME);
-		  settime_7seg();
-		  led7_Scan();
-	  }
+	  	  if (flag_timer7seg){
+	  		  setTimer7seg_f(SCAN_TIME);
+	  		  settime_7seg();
+	  		  led7_Scan();
+	  	  }
+
+    /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
